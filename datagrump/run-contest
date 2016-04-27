@@ -9,6 +9,11 @@ if ( not defined $username ) {
   die "Usage: $0 USERNAME\n";
 }
 
+my $window = $ARGV[ 1 ];
+if ( not defined $window ) {
+  $window = 50;
+}
+
 my $receiver_pid = fork;
 
 if ( $receiver_pid < 0 ) {
@@ -31,7 +36,7 @@ if ( defined $ENV{ 'DISPLAY' } ) {
 
 push @command, qw{--once --uplink-log=/tmp/contest_uplink_log -- sh -c};
 
-push @command, q{./sender $MAHIMAHI_BASE 9090};
+push @command, join "", q{./sender $MAHIMAHI_BASE 9090 }, qq{$window};
 
 # for the contest, we will send data over Verizon's downlink
 # (datagrump sender's uplink)

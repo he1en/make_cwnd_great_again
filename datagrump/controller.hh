@@ -11,6 +11,7 @@ private:
   bool debug_; /* Enables debugging output */
 
   /* Add member variables here */
+  unsigned int window_size_;
 
 public:
   /* Public interface for the congestion controller */
@@ -18,7 +19,7 @@ public:
      the call site as well (in sender.cc) */
 
   /* Default constructor */
-  Controller( const bool debug );
+  Controller( const bool debug, const unsigned int window_size );
 
   /* Get current window size, in datagrams */
   unsigned int window_size( void );
