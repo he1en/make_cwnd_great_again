@@ -1,5 +1,5 @@
 #!/bin/bash
 
-for i in {111..500};
-  do ./run-contest sloanestart $i >> windows.out 2>&1
+for i in {1..100..1};
+  do ./run-contest sloanestart $i >> 1_to_100_by_5_iii.out 2>&1
 done

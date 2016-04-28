@@ -10,8 +10,8 @@ Controller::Controller( const bool debug, const unsigned int window_size )
   : debug_( debug ),
     window_size_(window_size) 
 {
-  unsigned int last_acked_num_ = 0;
-  unsigned int num_duplicate_acks_ = 0;
+//  unsigned int last_acked_num_ = 0;
+//  unsigned int num_duplicate_acks_ = 0;
 }
 
 /* Get current window size, in datagrams */
