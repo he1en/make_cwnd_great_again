@@ -9,7 +9,10 @@ using namespace std;
 Controller::Controller( const bool debug, const unsigned int window_size )
   : debug_( debug ),
     window_size_(window_size) 
-{}
+{
+  unsigned int last_acked_num_ = 0;
+  unsigned int num_duplicate_acks_ = 0;
+}
 
 /* Get current window size, in datagrams */
 unsigned int Controller::window_size( void )
@@ -31,6 +34,10 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
 				    const uint64_t send_timestamp )
                                     /* in milliseconds */
 {
+  /* add timeout bool arg here and to DatagrumpSEnder::send_datagram
+     and half the cwnd if datagramis being resent because of a timeout */
+  
+
   /* Default: take no action */
 
   if ( debug_ ) {
@@ -49,8 +56,24 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
 			       const uint64_t timestamp_ack_received )
                                /* when the ack was received (by sender) */
 {
-  /* Default: take no action */
 
+  /* if sequence number acked is new: (>= last_acked_num_)
+       last_acked_num_ = sequence_number_acked;
+       num_duplicate_acks = 0
+       num_acks ++
+       if num_acks == window_size
+           window_size +=  1
+           num_acks = 0
+     else 
+         num_duplicate_acks_++
+	 if num_duplicate_acks == 3:
+	     window_size /= 2
+	   
+  */
+   
+   
+         
+  
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
 	 << " received ack for datagram " << sequence_number_acked
