@@ -5,7 +5,7 @@
 
 using namespace std;
 
-static const double ALPHA = 0.7;
+static const double ALPHA = 0.3;
 
 /* Default constructor */
 Controller::Controller( const bool debug )
@@ -62,9 +62,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   if ( sequence_number_acked > last_acked_num_) {
     last_acked_num_ = sequence_number_acked;
   } else {
-      // This is where we would handle 3x dup acks, but we don't think
-      // that happens much
-      return;
+      return; // duplicate ack
   }
 
   if (observed_rtt > delay_thresh_) {
