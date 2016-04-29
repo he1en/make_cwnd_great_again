@@ -56,7 +56,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
                                /* when the ack was received (by sender) */
 {
   uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
-  //double gradient = (rtt_estimate_ - observed_rtt) / rtt_estimate_;
+  double gradient = (rtt_estimate_ - observed_rtt) / rtt_estimate_;
   last_md_++;
 
   if ( sequence_number_acked > last_acked_num_) {
@@ -68,7 +68,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   }
 
   if (observed_rtt > delay_thresh_) {
-      if (last_md_ > 3) {
+      if ( last_md_ > 3 && gradient < 0.03 ) {
         window_size_ /= 2;
         last_md_ = 0;
       }
