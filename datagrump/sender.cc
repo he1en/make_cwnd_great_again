@@ -25,13 +25,13 @@ private:
      next expects will be acknowledged by the receiver */
   uint64_t next_ack_expected_;
 
-  void send_datagram( void );
+  void send_datagram( bool );
   void got_ack( const uint64_t timestamp, const ContestMessage & msg );
   bool window_is_open( void );
 
 public:
   DatagrumpSender( const char * const host, const char * const port,
-		   const unsigned int window_size, const bool debug );
+		   const bool debug);
   int loop( void );
 };
 
@@ -43,29 +43,26 @@ int main( int argc, char *argv[] )
   }
 
   bool debug = false;
-  unsigned int window_size = atoi( argv[ 3 ] );
-  cout << "Window size: " << window_size << "\n";
-  if ( argc == 5 and string( argv[ 4 ] ) == "debug" ) {
+  if ( argc == 4 and string( argv[ 3 ] ) == "debug" ) {
     debug = true;
-  } else if ( argc == 4 ) {
+  } else if ( argc == 3 ) {
     /* do nothing */
   } else {
-    cerr << "Usage: " << argv[ 0 ] << " HOST PORT WINDOW_SIZE [debug]" << endl;
+    cerr << "Usage: " << argv[ 0 ] << " HOST PORT [debug]" << endl;
     return EXIT_FAILURE;
   }
 
   /* create sender object to handle the accounting */
   /* all the interesting work is done by the Controller */
-  DatagrumpSender sender( argv[ 1 ], argv[ 2 ], window_size, debug );
+  DatagrumpSender sender( argv[ 1 ], argv[ 2 ], debug );
   return sender.loop();
 }
 
 DatagrumpSender::DatagrumpSender( const char * const host,
 				  const char * const port,
-				  const unsigned int window_size,
 				  const bool debug )
   : socket_(),
-    controller_( debug, window_size ),
+    controller_( debug ),
     sequence_number_( 0 ),
     next_ack_expected_( 0 )
 {
@@ -98,7 +95,7 @@ void DatagrumpSender::got_ack( const uint64_t timestamp,
 			    timestamp );
 }
 
-void DatagrumpSender::send_datagram( void )
+void DatagrumpSender::send_datagram( bool from_timeout )
 {
   /* All messages use the same dummy payload */
   static const string dummy_payload( 1424, 'x' );
@@ -109,7 +106,8 @@ void DatagrumpSender::send_datagram( void )
 
   /* Inform congestion controller */
   controller_.datagram_was_sent( cm.header.sequence_number,
-				 cm.header.send_timestamp );
+				 cm.header.send_timestamp,
+                 from_timeout );
 }
 
 bool DatagrumpSender::window_is_open( void )
@@ -127,7 +125,7 @@ int DatagrumpSender::loop( void )
   poller.add_action( Action( socket_, Direction::Out, [&] () {
 	/* Close the window */
 	while ( window_is_open() ) {
-	  send_datagram();
+	  send_datagram( false );
 	}
 	return ResultType::Continue;
       },
@@ -151,7 +149,7 @@ int DatagrumpSender::loop( void )
       return ret.exit_status;
     } else if ( ret.result == PollResult::Timeout ) {
       /* After a timeout, send one datagram to try to get things moving again */
-      send_datagram();
+      send_datagram( true );
     }
   }
 }

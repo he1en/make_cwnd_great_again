@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for i in {20..300..20};
+  do ./run-contest makecwndgreatagain $i >> delays.out 2>&1
+done
