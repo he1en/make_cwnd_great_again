@@ -36,8 +36,8 @@ if ( defined $ENV{ 'DISPLAY' } ) {
 
 push @command, qw{--once --uplink-log=/tmp/contest_uplink_log -- sh -c};
 
-push @command, join "", q{./sender $MAHIMAHI_BASE 9090 }, qq{$window debug}; 
-#push @command, join "", q{./sender $MAHIMAHI_BASE 9090 }, qq{$window }; 
+#push @command, join "", q{./sender $MAHIMAHI_BASE 9090 }, qq{$window debug}; 
+push @command, join "", q{./sender $MAHIMAHI_BASE 9090 }, qq{$window }; 
 
 # for the contest, we will send data over Verizon's downlink
 # (datagrump sender's uplink)

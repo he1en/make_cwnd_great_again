@@ -44,7 +44,6 @@ int main( int argc, char *argv[] )
 
   bool debug = false;
   unsigned int window_size = atoi( argv[ 3 ] );
-  cout << "Window size: " << window_size << "\n";
   if ( argc == 5 and string( argv[ 4 ] ) == "debug" ) {
     debug = true;
   } else if ( argc == 4 ) {

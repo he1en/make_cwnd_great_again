@@ -1,0 +1,270 @@
+Listening on :::9090
+Delay threshold is 20
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 0.23 Mbits/s (4.6% utilization)
+95th percentile per-packet queueing delay: 20 ms
+95th percentile signal delay: 97 ms
+
+Uploading data to server... done.
+
+Upload successful (853272 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887036-ugoodain
+
+Listening on :::9090
+Delay threshold is 40
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 0.23 Mbits/s (4.6% utilization)
+95th percentile per-packet queueing delay: 20 ms
+95th percentile signal delay: 98 ms
+
+Uploading data to server... done.
+
+Upload successful (853265 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887178-urieghus
+
+Listening on :::9090
+Delay threshold is 60
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 1.13 Mbits/s (22.4% utilization)
+95th percentile per-packet queueing delay: 23 ms
+95th percentile signal delay: 101 ms
+
+Uploading data to server... done.
+
+Upload successful (1153832 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887320-caeshoiy
+
+Listening on :::9090
+Delay threshold is 80
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 2.21 Mbits/s (43.8% utilization)
+95th percentile per-packet queueing delay: 35 ms
+95th percentile signal delay: 111 ms
+
+Uploading data to server... done.
+
+Upload successful (1520056 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887463-ohpangeo
+
+Listening on :::9090
+Delay threshold is 100
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 2.77 Mbits/s (54.9% utilization)
+95th percentile per-packet queueing delay: 48 ms
+95th percentile signal delay: 117 ms
+
+Uploading data to server... done.
+
+Upload successful (1710213 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887605-pheigouc
+
+Listening on :::9090
+Delay threshold is 120
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 3.21 Mbits/s (63.7% utilization)
+95th percentile per-packet queueing delay: 62 ms
+95th percentile signal delay: 124 ms
+
+Uploading data to server... done.
+
+Upload successful (1864528 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887748-eaphoolo
+
+Listening on :::9090
+Delay threshold is 140
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 3.67 Mbits/s (72.9% utilization)
+95th percentile per-packet queueing delay: 75 ms
+95th percentile signal delay: 146 ms
+
+Uploading data to server... done.
+
+Upload successful (2027087 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461887890-ietohghu
+
+Listening on :::9090
+Delay threshold is 160
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 3.93 Mbits/s (77.9% utilization)
+95th percentile per-packet queueing delay: 86 ms
+95th percentile signal delay: 154 ms
+
+Uploading data to server... done.
+
+Upload successful (2115864 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888034-aeyoomei
+
+Listening on :::9090
+Delay threshold is 180
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.03 Mbits/s (80.0% utilization)
+95th percentile per-packet queueing delay: 103 ms
+95th percentile signal delay: 168 ms
+
+Uploading data to server... done.
+
+Upload successful (2155430 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888177-eifaethu
+
+Listening on :::9090
+Delay threshold is 200
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.19 Mbits/s (83.1% utilization)
+95th percentile per-packet queueing delay: 116 ms
+95th percentile signal delay: 185 ms
+
+Uploading data to server... done.
+
+Upload successful (2211260 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888320-eimeiceh
+
+Listening on :::9090
+Delay threshold is 220
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.27 Mbits/s (84.7% utilization)
+95th percentile per-packet queueing delay: 131 ms
+95th percentile signal delay: 222 ms
+
+Uploading data to server... done.
+
+Upload successful (2242398 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888463-aiziecoh
+
+Listening on :::9090
+Delay threshold is 240
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.34 Mbits/s (86.1% utilization)
+95th percentile per-packet queueing delay: 140 ms
+95th percentile signal delay: 239 ms
+
+Uploading data to server... done.
+
+Upload successful (2268007 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888606-iephoech
+
+Listening on :::9090
+Delay threshold is 260
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.36 Mbits/s (86.5% utilization)
+95th percentile per-packet queueing delay: 155 ms
+95th percentile signal delay: 260 ms
+
+Uploading data to server... done.
+
+Upload successful (2275976 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888749-hophigho
+
+Listening on :::9090
+Delay threshold is 280
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.37 Mbits/s (86.7% utilization)
+95th percentile per-packet queueing delay: 161 ms
+95th percentile signal delay: 262 ms
+
+Uploading data to server... done.
+
+Upload successful (2279304 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461888891-aequeixi
+
+Listening on :::9090
+Delay threshold is 300
+Sending to 100.64.0.1:9090
+
+terminate called after throwing an instance of 'unix_error'
+  what():  send: Invalid argument
+Average capacity: 5.04 Mbits/s
+Average throughput: 4.47 Mbits/s (88.6% utilization)
+95th percentile per-packet queueing delay: 185 ms
+95th percentile signal delay: 283 ms
+
+Uploading data to server... done.
+
+Upload successful (2316015 bytes).
+For analysis, please visit:
+
+   http://cs344g.keithw.org/report?makecwndgreatagain-1461889034-oemootei
+

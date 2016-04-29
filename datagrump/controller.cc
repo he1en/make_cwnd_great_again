@@ -8,13 +8,13 @@ using namespace std;
 static const double ALPHA = 0.8;
 
 /* Default constructor */
-Controller::Controller( const bool debug, const unsigned int window_size )
+Controller::Controller( const bool debug, const unsigned int delay_thresh )
   : debug_( debug ),
-    window_size_((float) 14 + window_size * 0),
+    window_size_(14),
     last_acked_num_(0),
-    rtt_estimate_(20)
+    delay_thresh_(delay_thresh)
 {
-    // Nada
+  cout << "Delay threshold is " << delay_thresh << endl;
 }
 
 /* Get current window size, in datagrams */
@@ -33,20 +33,9 @@ unsigned int Controller::window_size( void )
 void Controller::datagram_was_sent( const uint64_t sequence_number,
 				    /* of the sent datagram */
 				    const uint64_t send_timestamp,
-                    /* in milliseconds */
-                    bool from_timeout )
+				    /* in milliseconds */
+				    bool from_timeout )
 {
-  
-
-  if ( from_timeout ) {
-      /* add timeout bool arg here and to DatagrumpSEnder::send_datagram
-         and half the cwnd if datagramis being resent because of a timeout */
-    window_size_ /= 2;
-    if ( window_size_ < 1) {
-      window_size_ = 1;
-    }
-  }
-
   if ( debug_ ) {
     cerr << "At time " << send_timestamp
 	 << " sent datagram " << sequence_number
@@ -64,19 +53,18 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
 			       const uint64_t timestamp_ack_received )
                                /* when the ack was received (by sender) */
 {
-    uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
-    cout << "Observed rtt: " << observed_rtt << endl;
-    rtt_estimate_ = ALPHA * rtt_estimate_ + (1 - ALPHA) * observed_rtt;
-    cout << "New rtt estimate: " << rtt_estimate_ << endl;
-
-    if ( sequence_number_acked > last_acked_num_) {
-        // additive increase
-        last_acked_num_ = sequence_number_acked;
-        
-        float delta = window_size_ <= 1 ? 1 : 1 / window_size_;
-        window_size_ += delta;
+  uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
+  if (observed_rtt > delay_thresh_) {
+    window_size_ /= 2;
+    if (window_size_ < 1) { 
+      window_size_ = 1;
     }
-  
+  } else if ( sequence_number_acked > last_acked_num_) {
+    last_acked_num_ = sequence_number_acked;
+    float delta = window_size_ <= 1 ? 1 : 1 / window_size_;
+    window_size_ += delta;
+  }
+
   if ( debug_ ) {
     cerr << "At time " << timestamp_ack_received
 	 << " received ack for datagram " << sequence_number_acked
@@ -90,5 +78,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return 200; // (int) rtt_estimate_;
+  return 200;
 }

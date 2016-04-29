@@ -13,7 +13,7 @@ private:
   /* Add member variables here */
   double window_size_;
   unsigned int last_acked_num_;
-  double rtt_estimate_;
+  unsigned int delay_thresh_;
 
 public:
   /* Public interface for the congestion controller */

@@ -1,1 +1,1 @@
-grep "percentile signal delay" windows.out | grep -E -o '[0-9]+ '
+grep "percentile signal delay" delays.out | grep -E -o '[0-9]+ '
