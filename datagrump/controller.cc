@@ -5,14 +5,14 @@
 
 using namespace std;
 
-static const double ALPHA = 0.8;
+static const double ALPHA = 0.5;
 
 /* Default constructor */
 Controller::Controller( const bool debug, const unsigned int window_size )
   : debug_( debug ),
     window_size_((float) 14 + window_size * 0),
     last_acked_num_(0),
-    rtt_estimate_(20)
+    rtt_estimate_(-1)
 {
     // Nada
 }
@@ -40,7 +40,7 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
 
   if ( from_timeout ) {
       /* add timeout bool arg here and to DatagrumpSEnder::send_datagram
-         and half the cwnd if datagramis being resent because of a timeout */
+         and half the cwnd if datagram is being resent because of a timeout */
     window_size_ /= 2;
     if ( window_size_ < 1) {
       window_size_ = 1;
@@ -66,13 +66,17 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
 {
     uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
     cout << "Observed rtt: " << observed_rtt << endl;
-    rtt_estimate_ = ALPHA * rtt_estimate_ + (1 - ALPHA) * observed_rtt;
+    if (rtt_estimate_ == -1) {
+        rtt_estimate_ = observed_rtt;
+    } else {
+        rtt_estimate_ = ALPHA * rtt_estimate_ + (1 - ALPHA) * observed_rtt;
+    }
     cout << "New rtt estimate: " << rtt_estimate_ << endl;
 
     if ( sequence_number_acked > last_acked_num_) {
         // additive increase
         last_acked_num_ = sequence_number_acked;
-        
+  
         float delta = window_size_ <= 1 ? 1 : 1 / window_size_;
         window_size_ += delta;
     }
@@ -90,5 +94,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return 200; // (int) rtt_estimate_;
+  return 2 * (int) rtt_estimate_;
 }
