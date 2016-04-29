@@ -13,7 +13,8 @@ Controller::Controller( const bool debug, const unsigned int delay_thresh )
     window_size_(25),
     last_acked_num_(0),
     rtt_estimate_(50),
-    delay_thresh_(delay_thresh)
+    delay_thresh_(120),
+    last_md_(3)
 {
   cout << "Delay threshold is " << delay_thresh << endl;
 }
@@ -55,7 +56,8 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
                                /* when the ack was received (by sender) */
 {
   uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
-  double gradient = (rtt_estimate_ - observed_rtt) / rtt_estimate_;
+  //double gradient = (rtt_estimate_ - observed_rtt) / rtt_estimate_;
+  last_md_++;
 
   if ( sequence_number_acked > last_acked_num_) {
     last_acked_num_ = sequence_number_acked;
@@ -65,33 +67,17 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
       return;
   }
 
-  window_size_ += window_size_ * gradient; 
-  if (window_size_ < 1) {
-    window_size_ = 1;
-  }
-  return;
-  
-  if (gradient > 0) {
-      float delta;
-      if (gradient > 0.5) {
-          delta = window_size_ <= 1 ? 20 : 20 / window_size_;
-      } else {
-          delta = window_size_ <= 1 ? 1 : 1 / window_size_;
+  if (observed_rtt > delay_thresh_) {
+      if (last_md_ > 3) {
+        window_size_ /= 2;
+        last_md_ = 0;
       }
-      // We can speed up
-      window_size_ += delta;
   } else {
-    // Gradient is negative, so maybe slow down?
-    if (gradient < -0.75) {
-        window_size_ *= 1.0/2;
-    } else if (gradient < -0.5) {
-        window_size_ *= 7.0/8;
-    } else if (gradient < -0.2) {
-        window_size_ -= 1 / window_size_;
-    } else {
-        // do nothing, leave window size as is.
-    }
-    if (window_size_ < 1) window_size_ = 1;
+    window_size_ += 1 / window_size_;
+  }
+
+  if (window_size_ < 1) { 
+      window_size_ = 1;
   }
 
   if ( debug_ ) {
@@ -107,5 +93,5 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
    before sending one more datagram */
 unsigned int Controller::timeout_ms( void )
 {
-  return 200;
+  return 100;
 }

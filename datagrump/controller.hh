@@ -15,6 +15,7 @@ private:
   unsigned int last_acked_num_;
   double rtt_estimate_;
   unsigned int delay_thresh_;
+  unsigned int last_md_;
 
 public:
   /* Public interface for the congestion controller */
