@@ -10,8 +10,9 @@ static const double ALPHA = 0.8;
 /* Default constructor */
 Controller::Controller( const bool debug, const unsigned int delay_thresh )
   : debug_( debug ),
-    window_size_(14),
+    window_size_(25),
     last_acked_num_(0),
+    rtt_estimate_(50),
     delay_thresh_(delay_thresh)
 {
   cout << "Delay threshold is " << delay_thresh << endl;
@@ -54,15 +55,43 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
                                /* when the ack was received (by sender) */
 {
   uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
-  if (observed_rtt > delay_thresh_) {
-    window_size_ /= 2;
-    if (window_size_ < 1) { 
-      window_size_ = 1;
-    }
-  } else if ( sequence_number_acked > last_acked_num_) {
+  double gradient = (rtt_estimate_ - observed_rtt) / rtt_estimate_;
+
+  if ( sequence_number_acked > last_acked_num_) {
     last_acked_num_ = sequence_number_acked;
-    float delta = window_size_ <= 1 ? 1 : 1 / window_size_;
-    window_size_ += delta;
+  } else {
+      // This is where we would handle 3x dup acks, but we don't think
+      // that happens much
+      return;
+  }
+
+  window_size_ += window_size_ * gradient; 
+  if (window_size_ < 1) {
+    window_size_ = 1;
+  }
+  return;
+  
+  if (gradient > 0) {
+      float delta;
+      if (gradient > 0.5) {
+          delta = window_size_ <= 1 ? 20 : 20 / window_size_;
+      } else {
+          delta = window_size_ <= 1 ? 1 : 1 / window_size_;
+      }
+      // We can speed up
+      window_size_ += delta;
+  } else {
+    // Gradient is negative, so maybe slow down?
+    if (gradient < -0.75) {
+        window_size_ *= 1.0/2;
+    } else if (gradient < -0.5) {
+        window_size_ *= 7.0/8;
+    } else if (gradient < -0.2) {
+        window_size_ -= 1 / window_size_;
+    } else {
+        // do nothing, leave window size as is.
+    }
+    if (window_size_ < 1) window_size_ = 1;
   }
 
   if ( debug_ ) {
