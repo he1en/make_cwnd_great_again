@@ -23,7 +23,7 @@ public:
      the call site as well (in sender.cc) */
 
   /* Default constructor */
-  Controller( const bool debug, const unsigned int window_size );
+  Controller( const bool debug );
 
   /* Get current window size, in datagrams */
   unsigned int window_size( void );
@@ -31,7 +31,7 @@ public:
   /* A datagram was sent */
   void datagram_was_sent( const uint64_t sequence_number,
 			  const uint64_t send_timestamp,
-              bool from_timeout );
+			  bool from_timeout );
 
   /* An ack was received */
   void ack_received( const uint64_t sequence_number_acked,

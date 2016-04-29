@@ -5,19 +5,17 @@
 
 using namespace std;
 
-static const double ALPHA = 0.8;
+static const double ALPHA = 0.7;
 
 /* Default constructor */
-Controller::Controller( const bool debug, const unsigned int delay_thresh )
+Controller::Controller( const bool debug )
   : debug_( debug ),
     window_size_(25),
     last_acked_num_(0),
     rtt_estimate_(50),
     delay_thresh_(120),
     last_md_(3)
-{
-  cout << "Delay threshold is " << delay_thresh << endl;
-}
+{}
 
 /* Get current window size, in datagrams */
 unsigned int Controller::window_size( void )
@@ -37,11 +35,12 @@ void Controller::datagram_was_sent( const uint64_t sequence_number,
 				    const uint64_t send_timestamp,
 				    /* in milliseconds */
 				    bool from_timeout )
+                                    /* is this a timeout-triggered resend */
 {
   if ( debug_ ) {
     cerr << "At time " << send_timestamp
 	 << " sent datagram " << sequence_number
-     << " because of a timeout " << (from_timeout ? "yes" : "no") << endl;
+     << " because of a timeout? " << (from_timeout ? "yes" : "no") << endl;
   }
 }
 
@@ -56,6 +55,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
                                /* when the ack was received (by sender) */
 {
   uint64_t observed_rtt = timestamp_ack_received - send_timestamp_acked;
+  rtt_estimate_ = ALPHA * rtt_estimate_ + (1 - ALPHA) * observed_rtt;
   double gradient = (rtt_estimate_ - observed_rtt) / rtt_estimate_;
   last_md_++;
 
@@ -68,7 +68,7 @@ void Controller::ack_received( const uint64_t sequence_number_acked,
   }
 
   if (observed_rtt > delay_thresh_) {
-      if ( last_md_ > 3 && gradient < 0.03 ) {
+    if ( last_md_ > 5 && gradient < 0.03 ) {
         window_size_ /= 2;
         last_md_ = 0;
       }
